@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Reddit Feed
+    </ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (click)="showFilters()">
+            <ion-icon name="funnel" [style.color]="hasFilter ? 'orange' : 'inherit'"></ion-icon>
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+   <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+       pullingIcon="arrow-dropdown"
+       pullingText="Puxe para atualizar"
+       refreshingSpinner="circles"
+       refreshingText="Atualizando...">
+    </ion-refresher-content>
+  </ion-refresher> 
+
+  <ion-list>
+    <button ion-item *ngFor="let feed of feeds" (click)="itemSelected(feed.data.url)">
+       <ion-thumbnail item-left>
+          <img [src]="feed.data.thumbnail">
+       </ion-thumbnail>
+       <h2>{{feed.data.title}}</h2>
+       <p>{{feed.data.domain}}</p>
+       
+    </button>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content
+       loadingText="Carregando mais links...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> 
+
+</ion-content>
